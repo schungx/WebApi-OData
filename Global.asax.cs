@@ -20,6 +20,9 @@ namespace WebApi.OData.App
 		private void Application_Start (object sender, EventArgs e)
 		{
 			GlobalConfiguration.Configure(config => {
+				// Enable OData query
+				config.EnableQuerySupport();
+
 				// Build the OData EDM
 				var builder = new ODataConventionModelBuilder();
 				builder.EntitySet<WebApi.OData.Controllers.Test>("test");
