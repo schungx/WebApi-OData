@@ -1,52 +1,57 @@
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Net.Http;
+using System.ServiceModel.Activation;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Batch;
 using System.Web.Http.OData.Builder;
 using System.Web.Http.OData.Routing;
 using System.Web.Http.OData.Routing.Conventions;
+using System.Web.Routing;
 
 namespace WebApi.OData.App
 {
-	public partial class Global
+	public partial class Global : HttpApplication
 	{
-		private void SetupHomeNetODataControllers (HttpConfiguration config)
+		private void Application_Start (object sender, EventArgs e)
 		{
-			Contract.Requires(config != null);
+			GlobalConfiguration.Configure(config => {
+				// Build the OData EDM
 
-			// Build the OData EDM
+				var builder = new ODataConventionModelBuilder();
+				builder.EntitySet<WebApi.OData.Controllers.Test>("test");
 
-			var builder = new ODataConventionModelBuilder();
-			builder.EntitySet<WebApi.OData.Controllers.Test>("test");
-
-      // Normal entities set
-			builder.EntitySet<Entity1>("Entities1");
+				// Normal entities set
+				builder.EntitySet<Entity1>("Entities1");
 			
-			// Composite key
-			builder.EntitySet<Entity2>("Entities2").EntityType.HasKey(e => e.Key1).HasKey(e=> e.Key2);
+				// Composite key
+				builder.EntitySet<Entity2>("Entities2").EntityType.HasKey(e => e.Key1).HasKey(e=> e.Key2);
 
-      // Build model
-			var model = builder.GetEdmModel();
+				// Build model
+				var model = builder.GetEdmModel();
 
-			// Add the composite key routing convention
-			var routingConventions = ODataRoutingConventions.CreateDefault();
-			routingConventions.Insert(0, new OData.CompositeKeyRoutingConvention());
+				// Add the composite key routing convention
+				var routingConventions = ODataRoutingConventions.CreateDefault();
+				routingConventions.Insert(0, new OData.CompositeKeyRoutingConvention());
 
-			// Map the OData route and the batch handler route
-			config.Routes.MapODataRoute("ODataRoute", "odata", model, new DefaultODataPathHandler(), routingConventions, new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
+				// Map the OData route and the batch handler route
+				config.Routes.MapODataRoute("ODataRoute", "odata", model, new DefaultODataPathHandler(), routingConventions, new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
+			});
 		}
 	}
 }
 
 namespace WebApi.OData.Controllers
 {
-  // Assuming Entity1 has a string key
+	// Assuming Entity1 has a string key
 	public class Entities1Controller : StandardODataController<DB, Entity1, string> { }
 
-  // Composite keys require manual handling, assuming Entity2 has Key1: string and Key2: int
+	// Composite keys require manual handling, assuming Entity2 has Key1: string and Key2: int
 	public class Entities2Controller : StandardODataControllerBase<DB>
 	{
 		[EnableQuery]
