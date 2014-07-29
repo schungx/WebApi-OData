@@ -9,7 +9,7 @@ Since WCF Data Services is no longer being actively developed, I was searching f
 
 Exposing an entity set is as simple as adding a line of code:
 
-  builder.EntitySet<Entity1>("Entities1");
+	builder.EntitySet<Entity1>("Entities1");
 
 and building a controller:
 
