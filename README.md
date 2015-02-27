@@ -3,7 +3,7 @@ WebApi-OData
 
 These are some classes useful when you want to auto-expose a number of entity sets from an Entity Framework as OData using Web API.
 
-Currently, it uses Web API 2.2 and exposes OData v1-3.  OData v4 should require only minor method call changes.  I am not using OData v4 due to its lack of DateTime support which breaks much legacy code.
+It uses Web API 2.x and exposes OData v4.
 
 Since WCF Data Services is no longer being actively developed, I was searching for an easy-to-use replacement based on Web API, but couldn't find any.  As a result, I spun my own.
 

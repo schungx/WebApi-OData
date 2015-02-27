@@ -5,14 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.OData.Routing;
-using System.Web.Http.OData.Routing.Conventions;
+using System.Web.OData.Routing;
+using System.Web.OData.Routing.Conventions;
 
 namespace WebApi.OData
 {
-  // This class is used for handling composite keys in OData routing
-  // Source: http://code.msdn.microsoft.com/Support-Composite-Key-in-d1d53161
-  
+	// This class is used for handling composite keys in OData routing
+	// Source: http://code.msdn.microsoft.com/Support-Composite-Key-in-d1d53161
+
 	public class CompositeKeyRoutingConvention : IODataRoutingConvention
 	{
 		private readonly EntityRoutingConvention entityRoutingConvention = new EntityRoutingConvention();
