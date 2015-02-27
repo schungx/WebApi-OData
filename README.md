@@ -17,7 +17,7 @@ and building a controller (yes, you still need to do this):
 
 The standard controller base class implements the standard set of CRUD operations with POST/GET/PUT/PATCH/DELETE verbs.
 
-There is support (via a custom route) for composite primary keys (see the sample), as well as built-in support for type casting (again via a custom route) -- which is Web API-speak for simulating OData's ``oftype`` function.  For example, you can do:
+There is support (via a custom route) for composite primary keys (see the sample), as well as built-in support for type casting (again via a custom route) -- which is Web API-speak for simulating OData's ``isof`` function.  For example, you can do:
 
 	http://example.com/odata/Entities1/Namespace.Type/
 	
