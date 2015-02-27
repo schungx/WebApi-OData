@@ -17,6 +17,12 @@ and building a controller (yes, you still need to do this):
 
 The standard controller base class implements the standard set of CRUD operations with POST/GET/PUT/PATCH/DELETE verbs.
 
+There is support (via a custom route) for composite primary keys (see the sample), as well as built-in support for type casting (again via a custom route) -- which is Web API-speak for simulating OData's ``oftype`` function.  For example, you can do:
+
+	http://example.com/odata/Entities1/Namespace.Type/
+	
+to get a list of all items in ``Entities1`` that is of type ``Namespace.Type``.
+
 Reflection is used in the base class to locate the entity set (``DbSet``) property within the ``DbContext`` based on the entity's type.
 
 The process can actually be automated further by using reflection to register all ``DbSet`` properties in the ``DbContext`` with the EDM builder, as well as to auto-generate the controller classes.  Then it will be almost as easy as WCF Data Services.  I haven't done it since I don't mind a few more lines of code to define the controllers, but it shouldn't be difficult.
