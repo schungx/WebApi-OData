@@ -22,7 +22,9 @@ namespace WebApi.OData.Controllers
 		public IEnumerable<Entity2> Get () { return db.Entities2; }
 		public Task<Entity2> Get ([FromODataUri] string Key1, [FromODataUri] int Key2) { return db.Entities2.FindAsync(Key1, Key2); }
 		public async Task<HttpResponseMessage> Post ([FromBody] Entity2 entity) { return await PostEntity(db.Entities2, entity); }
-		public async Task<Entity2> Put ([FromODataUri] string Key1, [FromODataUri] int Key2, [FromBody] Entity2 entity) { return await UpdateEntity(db.Entities2, await Get(Key1, Key2), entity); }
+		// PUT is used for incremental UPDATE
+		//public async Task<Entity2> Put ([FromODataUri] string Key1, [FromODataUri] int Key2, [FromBody] Entity2 entity) { return await UpdateEntity(db.Entities2, await Get(Key1, Key2), entity); }
+		public async Task<Entity2> Put ([FromODataUri] string Key1, [FromODataUri] int Key2, [FromBody] Delta<Entity2> patch) { return await PatchEntity(db.Entities2, await Get(Key1, Key2), patch); }
 		[AcceptVerbs("PATCH", "MERGE")]
 		public async Task<Entity2> Patch ([FromODataUri] string Key1, [FromODataUri] int Key2, [FromBody] Delta<Entity2> patch) { return await PatchEntity(db.Entities2, await Get(Key1, Key2), patch); }
 		public async Task Delete ([FromODataUri] string Key1, [FromODataUri] int Key2) { await DeleteEntity(db.Entities2, await Get(Key1, Key2)); }
