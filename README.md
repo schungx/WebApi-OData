@@ -37,11 +37,17 @@ However, many web servers actually have problem (or require additional configura
 Composite Primary Keys
 ----------------------
 
-There is support (via a custom route) for composite primary keys.  For example:
+There is support (via a custom routing convention) for composite primary keys.  For example:
 
 	http://example.com/odata/Entities1(Key1=..., Key2=...)
 
 gets the particular entity with the corresponding composite key values.
+
+To use this custom routing convention, you need to add ``CompositeKeyRoutingConvention`` during configuration:
+
+	var routingConventions = ODataRoutingConventions.CreateDefault();
+	routingConventions.Insert(0, new OData.CompositeKeyRoutingConvention());
+	config.MapODataServiceRoute("ODataRoute", "odata", model, new DefaultODataPathHandler(), routingConventions, new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
 
 See the sample for details.
 
@@ -49,10 +55,16 @@ See the sample for details.
 Type Casting Support for TPH
 ----------------------------
 
-There is also built-in support for type casting (again via a custom route) -- which is Web API-speak for simulating OData's ``isof`` function.
+There is also built-in support for type casting (again via a custom routing convention) -- which is Web API-speak for simulating OData's ``isof`` function.
 
 For example, to get only a certain type of objects from a TPH inheritance table, you can do:
 
-	http://example.com/odata/Entities1/Namespace.Type/
+	http://example.com/odata/Entities1/Namespace.Type
 	
 to get a list of all items in ``Entities1`` that is of type ``Namespace.Type``.
+
+To use it, add ``CastRoutingConvention`` during configuration:
+
+	var routingConventions = ODataRoutingConventions.CreateDefault();
+	routingConventions.Insert(0, new OData.CastRoutingConvention());
+	config.MapODataServiceRoute("ODataRoute", "odata", model, new DefaultODataPathHandler(), routingConventions, new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));

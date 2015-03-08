@@ -45,8 +45,8 @@ namespace WebApi.OData
 						var key = kv[0].Trim();
 						var valstr = kv[1].Trim();
 
-						if (string.IsNullOrWhiteSpace(key)) throw new ApplicationException("Missing key: " + key);
-						if (string.IsNullOrWhiteSpace(valstr)) throw new ApplicationException("Missing value: " + valstr);
+						if (string.IsNullOrWhiteSpace(key)) throw new ApplicationException("Missing key for value: " + valstr);
+						if (string.IsNullOrWhiteSpace(valstr)) throw new ApplicationException("Missing value for key " + key + ": " + valstr);
 
 						object val = null;
 

@@ -36,8 +36,14 @@ namespace WebApi.OData.App
 
 				// Add routing conventions
 				var routingConventions = ODataRoutingConventions.CreateDefault();
+
+				// Add support for casting: http://example.com/odata/Entities1/Namespace.Type
 				routingConventions.Insert(0, new OData.CastRoutingConvention());
+
+				// Add support for navigation keys: http://example.com/odata/Entities1(key)/Navigation(key)
 				routingConventions.Insert(1, new OData.NavigationIndexRoutingConvention());
+
+				// Add support for composite keys: http://example.com/odata/Entities1(Key1=..., Key2=...)
 				routingConventions.Insert(2, new OData.CompositeKeyRoutingConvention());
 
 				// Map the OData route and the batch handler route
